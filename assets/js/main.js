@@ -21,7 +21,7 @@ const sections = document.querySelectorAll("section[id]");
 function linkAction() {
   // 1. Loại bỏ menu mobile khi click
   if (navMenu) {
-    navMenu.classList.remove("left-0"); // Hoặc class "show" tùy bạn đặt
+    navMenu.classList.remove("show"); // Hoặc class "show" tùy bạn đặt
   }
   // Chú thích: Class 'active' sẽ được hàm scrollActive tự động xử lý khi trang cuộn
 }

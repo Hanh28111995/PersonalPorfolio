@@ -1254,7 +1254,16 @@ img {
 /* ===== CONTACT =====*/
 
 .contact__container {
-  row-gap: 3rem;
+  display: flex;
+}
+@media screen and (max-width: 500px) {
+  .contact__container {
+    flex-direction: column-reverse;
+  }
+  .contact__container form {
+    width: 80%;
+    margin: auto;
+  }
 }
 
 .contact__input {
@@ -1362,7 +1371,6 @@ img {
   .about__container,
   .skills__container,
   .works__container,
-  .contact__container,
   .contact__input {
     grid-template-columns: repeat(2, 1fr);
   }

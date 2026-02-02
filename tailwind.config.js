@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./index.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: "500px", // Tạo mốc mới tên là xs
+      },
+    },
   },
   plugins: [],
-}
+};

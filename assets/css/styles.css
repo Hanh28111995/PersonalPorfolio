@@ -114,7 +114,6 @@ img {
 /*===== CLASS CSS ===== */
 .section {
   padding: 4rem 0 2rem;
-  
 }
 
 .section-title {
@@ -1056,5 +1055,15 @@ img {
   to {
     right: 0;
     opacity: 1;
+  }
+}
+
+.contact__container {
+  display: flex;
+}
+@media screen and (max-width: 500px) {
+  .contact__container {
+    display: flex;
+    flex-direction: column;
   }
 }
