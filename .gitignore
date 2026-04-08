@@ -4,4 +4,4 @@ out/
 .env
 .env*.local
 .pnpm-debug.log*
-
+.vscode
