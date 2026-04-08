@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+/* 1. KHAI BÁO THEME (Để Tailwind v4 tạo ra các Class tương ứng) */
+@theme {
+  /* Colors - Ánh xạ từ biến CSS */
+  --color-main-bg: var(--bg);
+  --color-sub-bg: var(--bg-2);
+  --color-deep-bg: var(--bg-3);
+  --color-main-fg: var(--fg);
+  --color-muted-fg: var(--fg-muted);
+  --color-main-border: var(--border);
+  --color-surface-bright: var(--bg);
+  --color-on-surface: var(--fg);
+  --color-on-surface-variant: var(--fg-muted);  
+
+  /* Brand Colors - Sử dụng số RGB để Tailwind tự pha được Opacity /10, /20... */
+  --color-light-primary: rgb(var(--color-light-primary-rgb));
+  --color-tertiary: rgb(var(--color-tertiary-rgb));
+  --color-secondary: rgb(var(--color-secondary-rgb));
+  --color-primary: rgb(var(--color-light-primary-rgb));
+
+  /* Khai báo Animations vào Theme (BẮT BUỘC để v4 không báo lỗi Unknown Class) */
+  --animation-shimmer-bg: shimmer-bg 1s infinite;
+  --animation-shimmer: shimmer 10s linear infinite;
+  --animation-juice-fill: fill-pulse 2s ease-in-out infinite;
+  --animation-kinetic-squeeze: squeeze 2s ease-in-out infinite;
+  --animation-drip: drip-drop 2s infinite ease-in;
+
+  /* Animations cho Hero */
+  --animation-orbit-slow: orbit 60s linear infinite;
+  --animation-counter-rotate: counter-rotate 60s linear infinite;
+  --animation-floating: floating 3s ease-in-out infinite;
+  --animation-soft-pulse: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  /* Fonts */
+  --font-headline: var(--font-headline);
+  --font-body: var(--font-body);
+}
+
+/* 2. ĐỊNH NGHĨA BIẾN CSS (RAW VALUES) */
+:root {
+  /* Font */
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+
+  /* Colors Light */
+  --bg: #f5f6f7;
+  --bg-2: #eff1f2;
+  --bg-3: #e0e3e4;
+  --fg: #2c2f30;
+  --fg-muted: #595c5d;
+  --border: #2c2f30;
+
+  /* Cần khai báo cả 2 biến RGB ở đây để không bị lỗi 'not defined' */
+  --color-light-primary-rgb: 34 139 34; /* Xanh đậm cho Light */
+  --color-secondary-rgb: 234 215 0; /* Vàng chanh */
+  --color-tertiary-rgb: 162 243 31;
+  --parallax-overlay: rgba(245, 246, 247, 0.85);
+}
+
+.dark {
+  /* Colors Dark */
+  --bg: #09090b;
+  --bg-2: #131617;
+  --bg-3: #1e2122;
+  --fg: #f5f6f7;
+  --fg-muted: #abadae;
+  --border: #f5f6f7;
+
+  /* Màu sáng rực cho Dark */
+  --color-light-primary-rgb: 89 238 80;
+  --color-secondary-rgb: 250 255 0;
+  --color-tertiary-rgb: 173 255 47;
+  --parallax-overlay: rgba(12, 15, 16, 0.85);
+}
+
+/* 3. KEYFRAMES (Đặt ở mức Root để Global nhận diện tốt nhất) */
+@keyframes squeeze {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  45% {
+    transform: scale(0.92, 1.08) rotate(5deg);
+  }
+  50% {
+    transform: scale(1.1, 0.9) rotate(-3deg);
+  }
+  55% {
+    transform: scale(0.95, 1.05) rotate(0deg);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: 0% center;
+  }
+}
+
+@keyframes shimmer-bg {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  100% {
+    transform: translateX(150%) skewX(-25deg);
+  }
+}
+
+@keyframes floating {
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fill-pulse {
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 2px rgb(var(--color-light-primary-rgb)));
+  }
+  50% {
+    transform: scale(0.85);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 0px rgb(var(--color-light-primary-rgb)));
+  }
+}
+
+/* 4. CẤU HÌNH CƠ BẢN (BASE) */
+@layer base {
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    @apply transition-colors duration-300 antialiased;
+  }
+  *,
+  ::before,
+  ::after {
+    /* Khai báo giá trị mặc định cho tất cả các biến filter của Tailwind */
+    --tw-blur:  ;
+    --tw-brightness:  ;
+    --tw-contrast:  ;
+    --tw-grayscale:  ;
+    --tw-hue-rotate:  ;
+    --tw-invert:  ;
+    --tw-saturate:  ;
+    --tw-sepia:  ;
+    --tw-drop-shadow:  ;
+
+    /* Tổng hợp lại thành thuộc tính filter */
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+      var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert)
+      var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  }
+
+  /* Khử các style mặc định gây lỗi layout */
+  * {
+    @apply border-main-border/10;
+  }
+}
+
+/* 5. HIỆU ỨNG ĐẶC BIỆT (COMPONENTS) */
+@layer components {
+  /* Animation Bóp Chanh */
+  .kinetic-squeeze {
+    animation: var(--animation-kinetic-squeeze);
+    @apply origin-center will-change-transform;
+  }
+
+  /* Chữ Shimmer lấp lánh */
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--color-light-primary-rgb)) 0%,
+      #ffffff 50%,
+      rgb(var(--color-light-primary-rgb)) 100%
+    );
+    background-size: 200% auto;
+    animation: var(--animation-shimmer);
+    @apply text-transparent bg-clip-text;
+  }
+
+  /* Hiệu ứng Glassmorphism */
+  .kinetic-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Giọt nước cốt chanh rơi */
+  .drip {
+    @apply absolute rounded-full opacity-0 pointer-events-none;
+    width: 3px;
+    height: 4px;
+    animation: var(--animation-drip);
+    background-color: rgb(var(--color-light-primary-rgb));
+    box-shadow: 0 0 8px rgb(var(--color-light-primary-rgb) / 0.5);
+  }
+}
+
+@layer pages {
+  /* 2. Định vị 6 vị trí trên vòng tròn (Orbit Positions) */
+
+  .orbit-pos-0 {
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } /* 12h */
+  .orbit-pos-1 {
+    top: 25%;
+    left: 93.3%;
+    transform: translate(-50%, -50%);
+  } /* 2h */
+  .orbit-pos-2 {
+    top: 75%;
+    left: 93.3%;
+    transform: translate(-50%, -50%);
+  } /* 4h */
+  .orbit-pos-3 {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } /* 6h */
+  .orbit-pos-4 {
+    top: 75%;
+    left: 6.7%;
+    transform: translate(-50%, -50%);
+  } /* 8h */
+  .orbit-pos-5 {
+    top: 25%;
+    left: 6.7%;
+    transform: translate(-50%, -50%);
+  } /* 10h */
+
+  /* 3. Class hỗ trợ xoay ngược icon */
+  .counter-rotate {
+    animation: var(--animation-counter-rotate);
+  }
+
+  /* 4. Gradients đặc biệt cho Hero */
+  .kinetic-orchard-gradient {
+    /* CHỈ định nghĩa hình ảnh dải màu, để Tailwind có thể can thiệp vào vị trí */
+    background-image: linear-gradient(
+      135deg,
+      #ead700 0%,
+      #32cd32 50%,
+      #ead700 100%
+    );
+
+    /* BẮT BUỘC: Phải gấp đôi chiều rộng của nút để có "không gian" cho màu sắc trôi qua */
+    background-size: 200% auto;
+
+    /* Đảm bảo transition cho cả background-position */
+    transition:
+      background-position 0.5s ease,
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  /* Thêm hiệu ứng hover trực tiếp trong CSS để đảm bảo hoạt động bất chấp tính ưu tiên của Tailwind */
+  .kinetic-orchard-gradient:hover {
+    background-position: 100% center !important;
+  }
+  .animate-floating {
+    animation: var(--animation-floating);
+  }
+  .animate-orbit-slow {
+    animation: var(--animation-orbit-slow);
+  }
+  .animate-pulse {
+    animation: var(--animation-soft-pulse);
+  }
+}
+
+/* 1. Keyframes cho quỹ đạo xoay */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Xoay ngược lại để icon không bị lộn ngược khi quay */
+@keyframes counter-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes drip-drop {
+  0% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px) scaleY(1.5);
+    opacity: 0;
+  }
+}
+
+/* TIỆN ÍCH PHỤ TRỢ (UTILITIES) */
+@layer utilities {
+  .zest-pattern {
+    background-image: radial-gradient(
+      rgb(var(--color-light-primary-rgb)) 0.5px,
+      transparent 0.5px
+    );
+    background-size: 24px 24px;
+    @apply opacity-5;
+  }
+  .zest-dot {
+    background-image: radial-gradient(
+      circle,
+      var(--border) 1px,
+      transparent 1px
+    );
+    background-size: 30px 30px;
+  }
+}
